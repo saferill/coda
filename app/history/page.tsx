@@ -90,7 +90,6 @@ export default function HistoryPage() {
         </button>
       </div>
 
-      <div className="space-y-8">
       <div className="space-y-12 mt-4">
         {todayHistory.length > 0 && (
           <div>
