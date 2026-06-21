@@ -1,128 +1,68 @@
-# 🎧 Music Web App
-
-![Next.js](https://img.shields.io/badge/Next.js-000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![PWA](https://img.shields.io/badge/PWA-5A0FC8?style=for-the-badge&logo=googlechrome&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge)
-
-> **Simple. Clean. Functional.**  
-> *Built for learning, building, and sharing — not for stealing.*
+<div align="center">
+  <img src="https://f.top4top.io/p_3733w0g4e0.jpg" alt="Safe-Play Logo" width="120" height="120" style="border-radius: 50%; box-shadow: 0 4px 20px rgba(0,0,0,0.5); margin-bottom: 20px;" />
+  <h1>🎧 Safe-Play Web Music</h1>
+  <p><strong>A Sleek, Enterprise-Grade Spotify-like Web Player</strong></p>
+  <p>Crafted with passion by <b>Safe_rill</b></p>
+</div>
 
 ---
 
-## 🚀 About This Project
+## 🌟 Overview
 
-Project ini dibuat menggunakan **Next.js** sebagai framework utama dan memanfaatkan library **ytmusicapi** untuk mengambil data musik secara dinamis.
+**Safe-Play** adalah platform *streaming* musik berbasis web bergaya *Spotify* yang dirancang untuk memberikan pengalaman audio tanpa hambatan (*seamless*) dengan antarmuka yang sangat futuristik dan mewah.
 
-Tujuan utama project ini:
+Proyek ini menggunakan **Next.js App Router** untuk memastikan pemutar musik (Player) tetap hidup secara global di latar belakang tanpa terputus saat pengguna berpindah-pindah halaman.
 
-- Eksplorasi pembuatan web music app  
-- Belajar integrasi API (YouTube Music)  
-- Menyediakan pengalaman streaming sederhana berbasis web  
-- Dibuat khusus untuk developer yang ingin belajar & berkembang  
+## ✨ Key Features
 
----
+- **🛡️ Spotify-Level Stability**: Menggunakan arsitektur *Global App Layout* dan *Global Error Boundary*, pemutar musik tidak akan pernah mati meskipun halaman lain mengalami kegagalan proses.
+- **📱 Background Mobile Playback**: Menggunakan trik *Silent Audio Lock* (HTML5 Audio Base64), lagu akan terus diputar dengan stabil di Android/iOS meskipun layar dikunci atau browser diminimalkan.
+- **⚡ Optimistic Load Bypass**: Pengalaman perpindahan lagu secepat kilat. Sistem akan langsung memuat ID lagu selanjutnya secara sinkron tanpa menunggu siklus render React yang lambat.
+- **🧠 Smart State Persistence**: Menggunakan *Zustand Persist*, sesi pemutaran Anda (lagu saat ini, *queue*, dan *history*) akan selalu diingat. Refresh halaman atau tutup browser, dan lanjutkan tepat dari titik terakhir Anda mendengarkan.
+- **🎬 Cinematic Splash Screen**: Pengunjung akan disambut oleh *Welcome Pop-up* bergaya *dark glassmorphism* dengan efek aura 3D pada setiap sesi awal.
+- **🖼️ High-Res Image Proxy**: Semua *thumbnail* album diambil secara *high-res* dan di-*proxy* dengan mulus melalui server Next.js untuk menghindari pemblokiran CORS dari pihak ketiga.
+- **📱 PWA Ready**: Aplikasi ini mendukung *Progressive Web App* (PWA) sehingga bisa diinstal layaknya aplikasi native di HP maupun PC Anda.
 
-## ⚙️ Tech Stack
+## 🛠️ Tech Stack
 
-- **Next.js** → Frontend + SSR  
-- **TypeScript** → Type safety  
-- **ytmusicapi** → Fetch data music dari YouTube Music  
-- **IndexedDB (optional)** → Penyimpanan offline (PWA support)  
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **State Management**: [Zustand](https://github.com/pmndrs/zustand)
+- **Animations**: [Motion React (Framer Motion)](https://motion.dev/)
+- **Audio Engine**: `react-youtube` (Iframe API)
 
----
+## 🚀 Getting Started
 
-## 🔥 Features
+Ikuti langkah-langkah berikut untuk menjalankan aplikasi ini secara lokal di mesin Anda.
 
-- 🔍 Search lagu / artis  
-- 🎵 Streaming music  
-- 📥 (Optional) Download & offline mode (PWA)  
-- ⚡ Fast & lightweight UI  
-- 📱 Mobile friendly  
+### Prerequisites
+Pastikan Anda sudah menginstal Node.js versi 18 ke atas.
 
----
+### Installation
 
-## 📦 Installation
+1. Clone repository ini:
+   ```bash
+   git clone https://github.com/saferill/Safe-Play.git
+   cd Safe-Play
+   ```
 
-```bash
-git clone https://github.com/sanzzyproject/Apple-Music-player
-cd repository-name
-npm install
-npm run dev
-```
+2. Instal dependensi:
+   ```bash
+   npm install
+   ```
 
-## ⚠️ Important Note (Read This!)
+3. Jalankan server *development*:
+   ```bash
+   npm run dev
+   ```
 
-Project ini **OPEN SOURCE**, tapi bukan berarti bebas digunakan tanpa etika.
+4. Buka [http://localhost:3000](http://localhost:3000) di browser favorit Anda.
 
-### ❗ Rules:
+## 🤝 Contributing
 
-#### ✔️ Boleh:
-- Fork & modifikasi  
-- Dipelajari & dikembangkan  
-- Dijadikan referensi project pribadi  
+Jika Anda menemukan *bug* atau memiliki ide untuk meningkatkan fitur di dalam Safe-Play, jangan ragu untuk membuat *Pull Request* atau membuka *Issue*.
 
-#### ❌ Tidak diperbolehkan:
-- Reupload / jual ulang tanpa perubahan signifikan  
-- Claim sebagai karya sendiri (tanpa credit)  
-- Copy-paste mentah untuk kepentingan komersial  
+## 📄 License
 
----
-
-## 💼 Commercial Use & Full License
-
-Jika kamu ingin:
-
-- Menggunakan source code untuk kebutuhan **komersial**
-- Menjual ulang source code
-- Mengedit secara bebas tanpa batasan
-- Menggunakan tanpa kewajiban memberikan credit
-
-Silakan dapatkan versi **Full License** melalui link berikut:
-
-🔗 https://lynk.id/sannnx/mow6ergxdke3
-
-Dengan membeli lisensi, kamu mendapatkan:
-- ✅ Hak penggunaan komersial  
-- ✅ Kebebasan modifikasi penuh  
-- ✅ Izin distribusi / penjualan ulang  
-- ✅ Akses source code tanpa batasan etika open-source  
-
----
-
-## 🤝 Respect the Creator
-
-Kalau kamu fork atau pakai project ini:
-
-- 💬 Kasih credit (minimal mention repo asli)  
-- ⭐ Star repo ini sebagai bentuk apresiasi  
-- 🔄 Share improvement kamu (optional tapi keren)  
-
----
-
-## 🧠 Philosophy
-
-> **"Code itu untuk dibagikan, tapi bukan untuk dicuri."**
-
-Project ini dibuat dengan effort & waktu.  
-Kalau kamu terbantu, hargai dengan cara yang benar.
-
----
-
-## 📌 License
-
-Disarankan menggunakan salah satu:
-
-- MIT License (bebas tapi tetap ada credit)  
-- Atau custom license sesuai kebutuhan  
-
----
-
-## ✨ Final Words
-
-Kalau kamu cuma copy tanpa ngerti, kamu gak berkembang.  
-Kalau kamu belajar & improve, kamu bakal jauh lebih jago.  
-
-**Happy coding 🚀**
+Proyek ini dibuat untuk tujuan pembelajaran dan portofolio pribadi. Seluruh hak cipta musik dan gambar tetap menjadi milik pencipta aslinya.
