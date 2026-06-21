@@ -80,72 +80,72 @@ export default function ArtistPage() {
   return (
     <main className="min-h-screen pb-32">
       {/* Header */}
-      <div className="relative h-[40vh] min-h-[300px] w-full">
+      <div className="relative h-[60vh] min-h-[400px] w-full">
         <Image 
           src={headerImage || '/placeholder.png'} 
           alt={artist.name} 
           fill 
-          className="object-cover opacity-80"
+          className="object-cover grayscale-[20%]"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#121110] via-[#121110]/40 to-transparent" />
         
         {/* Top Bar */}
-        <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-10">
-          <button onClick={() => router.back()} className="p-2 bg-black/20 backdrop-blur-md rounded-full text-white hover:bg-black/40 transition">
-            <ArrowLeft className="w-6 h-6" />
+        <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-10">
+          <button onClick={() => router.back()} className="text-[#FAF9F6] hover:text-[#FAF9F6]/70 transition-colors">
+            <ArrowLeft className="w-5 h-5" strokeWidth={1.5} />
           </button>
-          <button className="p-2 bg-black/20 backdrop-blur-md rounded-full text-white hover:bg-black/40 transition">
-            <Share2 className="w-6 h-6" />
+          <span className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50">Artist</span>
+          <button className="text-[#FAF9F6] hover:text-[#FAF9F6]/70 transition-colors">
+            <Share2 className="w-5 h-5" strokeWidth={1.5} />
           </button>
         </div>
 
         {/* Artist Info */}
-        <div className="absolute bottom-0 left-0 p-6 w-full">
-          <h1 className="text-5xl font-bold text-white mb-6">{artist.name}</h1>
-          <div className="flex items-center gap-3">
+        <div className="absolute bottom-0 left-0 p-6 w-full pb-10">
+          <h1 className="text-6xl sm:text-8xl font-serif font-bold text-[#FAF9F6] mb-6 tracking-tight leading-none">{artist.name}</h1>
+          <div className="flex items-center gap-4">
             <button 
               onClick={handleSubscribe}
-              className={`px-6 py-2 rounded-full border font-medium transition ${
+              className={`px-8 py-2 rounded-full border text-xs tracking-widest uppercase transition-all duration-300 ${
                 isSubscribed 
-                  ? 'bg-white text-black border-white hover:bg-white/90' 
-                  : 'border-white/30 text-white hover:bg-white/10'
+                  ? 'bg-[#FAF9F6] text-[#121110] border-[#FAF9F6] hover:bg-transparent hover:text-[#FAF9F6]' 
+                  : 'border-[#FAF9F6]/30 text-[#FAF9F6] hover:border-[#FAF9F6]'
               }`}
             >
               {isSubscribed ? 'Subscribed' : 'Subscribe'}
             </button>
-            <button className="px-6 py-2 rounded-full border border-white/30 text-white font-medium flex items-center gap-2 hover:bg-white/10 transition">
-              <Radio className="w-4 h-4" />
+            <button className="px-8 py-2 rounded-full border border-[#FAF9F6]/30 text-[#FAF9F6] text-xs tracking-widest uppercase flex items-center gap-2 hover:border-[#FAF9F6] transition-all duration-300">
+              <Radio className="w-3 h-3" strokeWidth={2} />
               Radio
             </button>
             <button 
-              className="w-10 h-10 rounded-full bg-[#FA243C] text-white flex items-center justify-center ml-auto hover:scale-105 transition"
+              className="w-12 h-12 rounded-full border border-[#FAF9F6] text-[#FAF9F6] flex items-center justify-center ml-auto hover:bg-[#FAF9F6] hover:text-[#121110] transition-all duration-300"
               onClick={() => {
                 if (artist.topSongs?.length > 0) {
                   playTrack(artist.topSongs[0], artist.topSongs);
                 }
               }}
             >
-              <Play className="w-5 h-5 fill-current ml-1" />
+              <Play className="w-4 h-4 fill-current ml-0.5" strokeWidth={1} />
             </button>
           </div>
         </div>
       </div>
 
-      <div className="px-4 mt-6 space-y-10">
+      <div className="px-6 mt-8 space-y-16">
         {/* Tentang */}
-        <section>
-          <h2 className="text-lg font-bold text-white mb-2">Tentang</h2>
-          <div className="text-white/70 text-sm">
-            <p className="mb-1">Artist • {artist.name}</p>
-            <p className={isBioExpanded ? "" : "line-clamp-3"}>
-              Dengarkan karya-karya terbaik dari {artist.name} di platform ini. Jelajahi berbagai lagu populer, album terbaru, single, dan video musik yang telah dirilis. {artist.name} telah memberikan kontribusi besar dalam industri musik dan terus menghibur para penggemarnya dengan karya-karya yang luar biasa. Temukan juga artis-artis serupa dan playlist yang menampilkan lagu-lagu hits dari {artist.name}.
+        <section className="border-b border-[#FAF9F6]/10 pb-8">
+          <h2 className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50 mb-6">About</h2>
+          <div className="text-[#FAF9F6]/80 text-sm font-serif leading-relaxed">
+            <p className={isBioExpanded ? "" : "line-clamp-4"}>
+              Listen to the finest works from {artist.name} on this platform. Explore popular tracks, latest albums, singles, and music videos. {artist.name} has made significant contributions to the music industry and continues to entertain fans with extraordinary creations.
             </p>
             <button 
               onClick={() => setIsBioExpanded(!isBioExpanded)}
-              className="text-white mt-2 text-xs font-medium"
+              className="text-[#FAF9F6] mt-4 text-[9px] font-sans tracking-widest uppercase border-b border-[#FAF9F6]/30 hover:border-[#FAF9F6] transition-colors pb-1"
             >
-              {isBioExpanded ? "Tampilkan lebih sedikit" : "Tampilkan lebih banyak"}
+              {isBioExpanded ? "Show Less" : "Read More"}
             </button>
           </div>
         </section>
@@ -153,13 +153,16 @@ export default function ArtistPage() {
         {/* Top Songs */}
         {artist.topSongs && artist.topSongs.length > 0 && (
           <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-white">Top songs</h2>
+            <div className="flex items-center justify-between mb-8 border-b border-[#FAF9F6]/10 pb-4">
+              <h2 className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50">Top Tracks</h2>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               {artist.topSongs.slice(0, 5).map((song: any, index: number) => (
-                <div key={`song-${song.videoId}-${index}`} className="w-full">
-                  <TrackItem track={song} queue={artist.topSongs} />
+                <div key={`song-${song.videoId}-${index}`} className="w-full flex items-center group">
+                   <span className="w-8 text-[9px] font-sans tracking-widest text-[#FAF9F6]/30 hidden sm:block shrink-0 pt-1 group-hover:text-[#FAF9F6] transition-colors">{index + 1}</span>
+                   <div className="flex-1 min-w-0">
+                     <TrackItem track={song} queue={artist.topSongs} />
+                   </div>
                 </div>
               ))}
             </div>
@@ -169,29 +172,31 @@ export default function ArtistPage() {
         {/* Albums */}
         {artist.topAlbums && artist.topAlbums.length > 0 && (
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">Albums</h2>
-            <div className="flex overflow-x-auto no-scrollbar gap-4 snap-x snap-mandatory pb-4">
+            <div className="flex items-center justify-between mb-8 border-b border-[#FAF9F6]/10 pb-4">
+              <h2 className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50">Albums</h2>
+            </div>
+            <div className="flex overflow-x-auto no-scrollbar gap-6 snap-x snap-mandatory pb-4">
               {artist.topAlbums.map((album: any, index: number) => (
                 <div 
                   key={`album-${album.albumId}-${index}`} 
-                  className="w-40 shrink-0 snap-start group cursor-pointer"
+                  className="w-48 shrink-0 snap-start group cursor-pointer"
                   onClick={() => router.push(`/album/${album.albumId}`)}
                 >
-                  <div className="relative aspect-square rounded-lg overflow-hidden mb-3">
+                  <div className="relative aspect-square rounded-sm overflow-hidden mb-4 border border-[#FAF9F6]/10">
                     <Image 
                       src={getHighResImage(album.thumbnails?.[album.thumbnails.length - 1]?.url, 400) || '/placeholder.png'} 
                       alt={album.name} 
                       fill 
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
                     />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <div className="w-10 h-10 rounded-full bg-black/50 flex items-center justify-center text-white backdrop-blur-sm">
-                        <Play className="w-5 h-5 fill-current ml-1" />
+                    <div className="absolute inset-0 bg-[#121110]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full border border-[#FAF9F6] flex items-center justify-center text-[#FAF9F6] backdrop-blur-sm">
+                        <Play className="w-4 h-4 fill-current ml-0.5" strokeWidth={1} />
                       </div>
                     </div>
                   </div>
-                  <MarqueeText text={album.name} className="text-white font-medium" />
-                  <MarqueeText text={album.year} className="text-white/50 text-sm" />
+                  <MarqueeText text={album.name} className="text-[#FAF9F6] font-serif text-[15px] mb-1" />
+                  <MarqueeText text={album.year} className="text-[#FAF9F6]/40 text-[9px] font-sans tracking-widest uppercase" />
                 </div>
               ))}
             </div>
@@ -201,34 +206,31 @@ export default function ArtistPage() {
         {/* Singles */}
         {artist.topSingles && artist.topSingles.length > 0 && (
           <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-white">Singles & EPs</h2>
-              <button className="text-white/70 hover:text-white">
-                <ArrowLeft className="w-5 h-5 rotate-180" />
-              </button>
+            <div className="flex items-center justify-between mb-8 border-b border-[#FAF9F6]/10 pb-4">
+              <h2 className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50">Singles & EPs</h2>
             </div>
-            <div className="flex overflow-x-auto no-scrollbar gap-4 snap-x snap-mandatory pb-4">
+            <div className="flex overflow-x-auto no-scrollbar gap-6 snap-x snap-mandatory pb-4">
               {artist.topSingles.map((single: any, index: number) => (
                 <div 
                   key={`single-${single.albumId}-${index}`} 
-                  className="w-40 shrink-0 snap-start group cursor-pointer"
+                  className="w-48 shrink-0 snap-start group cursor-pointer"
                   onClick={() => router.push(`/album/${single.albumId}`)}
                 >
-                  <div className="relative aspect-square rounded-lg overflow-hidden mb-3">
+                  <div className="relative aspect-square rounded-sm overflow-hidden mb-4 border border-[#FAF9F6]/10">
                     <Image 
                       src={getHighResImage(single.thumbnails?.[single.thumbnails.length - 1]?.url, 400) || '/placeholder.png'} 
                       alt={single.name} 
                       fill 
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
                     />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <div className="w-10 h-10 rounded-full bg-black/50 flex items-center justify-center text-white backdrop-blur-sm">
-                        <Play className="w-5 h-5 fill-current ml-1" />
+                    <div className="absolute inset-0 bg-[#121110]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full border border-[#FAF9F6] flex items-center justify-center text-[#FAF9F6] backdrop-blur-sm">
+                        <Play className="w-4 h-4 fill-current ml-0.5" strokeWidth={1} />
                       </div>
                     </div>
                   </div>
-                  <MarqueeText text={single.name} className="text-white font-medium" />
-                  <MarqueeText text={single.year} className="text-white/50 text-sm" />
+                  <MarqueeText text={single.name} className="text-[#FAF9F6] font-serif text-[15px] mb-1" />
+                  <MarqueeText text={single.year} className="text-[#FAF9F6]/40 text-[9px] font-sans tracking-widest uppercase" />
                 </div>
               ))}
             </div>
@@ -238,34 +240,31 @@ export default function ArtistPage() {
         {/* Videos */}
         {artist.topVideos && artist.topVideos.length > 0 && (
           <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-white">Videos</h2>
-              <button className="text-white/70 hover:text-white">
-                <ArrowLeft className="w-5 h-5 rotate-180" />
-              </button>
+            <div className="flex items-center justify-between mb-8 border-b border-[#FAF9F6]/10 pb-4">
+              <h2 className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50">Videos</h2>
             </div>
-            <div className="flex overflow-x-auto no-scrollbar gap-4 snap-x snap-mandatory pb-4">
+            <div className="flex overflow-x-auto no-scrollbar gap-6 snap-x snap-mandatory pb-4">
               {artist.topVideos.map((video: any, index: number) => (
                 <div 
                   key={`video-${video.videoId}-${index}`} 
-                  className="w-64 shrink-0 snap-start group cursor-pointer"
+                  className="w-72 shrink-0 snap-start group cursor-pointer"
                   onClick={() => playTrack(video, artist.topVideos)}
                 >
-                  <div className="relative aspect-video rounded-lg overflow-hidden mb-3">
+                  <div className="relative aspect-video rounded-sm overflow-hidden mb-4 border border-[#FAF9F6]/10">
                     <Image 
                       src={getHighResImage(video.thumbnails?.[video.thumbnails.length - 1]?.url, 400) || '/placeholder.png'} 
                       alt={video.name} 
                       fill 
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
                     />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-full bg-black/50 flex items-center justify-center text-white backdrop-blur-sm">
-                        <Play className="w-6 h-6 fill-current ml-1" />
+                    <div className="absolute inset-0 bg-[#121110]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full border border-[#FAF9F6] flex items-center justify-center text-[#FAF9F6] backdrop-blur-sm">
+                        <Play className="w-4 h-4 fill-current ml-0.5" strokeWidth={1} />
                       </div>
                     </div>
                   </div>
-                  <MarqueeText text={video.name} className="text-white font-medium" />
-                  <MarqueeText text={artist.name} className="text-white/50 text-sm" />
+                  <MarqueeText text={video.name} className="text-[#FAF9F6] font-serif text-[15px] mb-1" />
+                  <MarqueeText text={artist.name} className="text-[#FAF9F6]/40 text-[9px] font-sans tracking-widest uppercase" />
                 </div>
               ))}
             </div>
@@ -275,31 +274,31 @@ export default function ArtistPage() {
         {/* Live Performances */}
         {artist.livePerformances && artist.livePerformances.length > 0 && (
           <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-white">Live performances</h2>
+            <div className="flex items-center justify-between mb-8 border-b border-[#FAF9F6]/10 pb-4">
+              <h2 className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50">Live performances</h2>
             </div>
-            <div className="flex overflow-x-auto no-scrollbar gap-4 snap-x snap-mandatory pb-4">
+            <div className="flex overflow-x-auto no-scrollbar gap-6 snap-x snap-mandatory pb-4">
               {artist.livePerformances.map((video: any, index: number) => (
                 <div 
                   key={`live-${video.videoId}-${index}`} 
-                  className="w-64 shrink-0 snap-start group cursor-pointer"
+                  className="w-72 shrink-0 snap-start group cursor-pointer"
                   onClick={() => playTrack(video, artist.livePerformances)}
                 >
-                  <div className="relative aspect-video rounded-lg overflow-hidden mb-3">
+                  <div className="relative aspect-video rounded-sm overflow-hidden mb-4 border border-[#FAF9F6]/10">
                     <Image 
                       src={getHighResImage(video.thumbnails?.[video.thumbnails.length - 1]?.url, 400) || '/placeholder.png'} 
                       alt={video.name} 
                       fill 
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
                     />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-full bg-black/50 flex items-center justify-center text-white backdrop-blur-sm">
-                        <Play className="w-6 h-6 fill-current ml-1" />
+                    <div className="absolute inset-0 bg-[#121110]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full border border-[#FAF9F6] flex items-center justify-center text-[#FAF9F6] backdrop-blur-sm">
+                        <Play className="w-4 h-4 fill-current ml-0.5" strokeWidth={1} />
                       </div>
                     </div>
                   </div>
-                  <MarqueeText text={video.name} className="text-white font-medium" />
-                  <MarqueeText text={artist.name} className="text-white/50 text-sm" />
+                  <MarqueeText text={video.name} className="text-[#FAF9F6] font-serif text-[15px] mb-1" />
+                  <MarqueeText text={artist.name} className="text-[#FAF9F6]/40 text-[9px] font-sans tracking-widest uppercase" />
                 </div>
               ))}
             </div>
@@ -309,29 +308,31 @@ export default function ArtistPage() {
         {/* Featured On */}
         {artist.featuredOn && artist.featuredOn.length > 0 && (
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">Featured on</h2>
-            <div className="flex overflow-x-auto no-scrollbar gap-4 snap-x snap-mandatory pb-4">
+            <div className="flex items-center justify-between mb-8 border-b border-[#FAF9F6]/10 pb-4">
+              <h2 className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50">Featured On</h2>
+            </div>
+            <div className="flex overflow-x-auto no-scrollbar gap-6 snap-x snap-mandatory pb-4">
               {artist.featuredOn.map((playlist: any, index: number) => (
                 <div 
                   key={`playlist-${playlist.playlistId}-${index}`} 
-                  className="w-40 shrink-0 snap-start group cursor-pointer"
+                  className="w-48 shrink-0 snap-start group cursor-pointer"
                   onClick={() => router.push(`/playlist/${playlist.playlistId}`)}
                 >
-                  <div className="relative aspect-square rounded-lg overflow-hidden mb-3">
+                  <div className="relative aspect-square rounded-sm overflow-hidden mb-4 border border-[#FAF9F6]/10">
                     <Image 
                       src={getHighResImage(playlist.thumbnails?.[playlist.thumbnails.length - 1]?.url, 400) || '/placeholder.png'} 
                       alt={playlist.name} 
                       fill 
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
                     />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <div className="w-10 h-10 rounded-full bg-black/50 flex items-center justify-center text-white backdrop-blur-sm">
-                        <Play className="w-5 h-5 fill-current ml-1" />
+                    <div className="absolute inset-0 bg-[#121110]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full border border-[#FAF9F6] flex items-center justify-center text-[#FAF9F6] backdrop-blur-sm">
+                        <Play className="w-4 h-4 fill-current ml-0.5" strokeWidth={1} />
                       </div>
                     </div>
                   </div>
-                  <MarqueeText text={playlist.name} className="text-white font-medium" />
-                  <MarqueeText text="Playlist" className="text-white/50 text-sm" />
+                  <MarqueeText text={playlist.name} className="text-[#FAF9F6] font-serif text-[15px] mb-1" />
+                  <MarqueeText text="Playlist" className="text-[#FAF9F6]/40 text-[9px] font-sans tracking-widest uppercase" />
                 </div>
               ))}
             </div>
@@ -341,25 +342,27 @@ export default function ArtistPage() {
         {/* Fans might also like */}
         {artist.similarArtists && artist.similarArtists.filter((a: any) => a.artistId?.startsWith('UC') || a.artistId?.startsWith('HC')).length > 0 && (
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">Fans might also like</h2>
-            <div className="flex overflow-x-auto no-scrollbar gap-6 snap-x snap-mandatory pb-4">
+            <div className="flex items-center justify-between mb-8 border-b border-[#FAF9F6]/10 pb-4">
+              <h2 className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50">Fans might also like</h2>
+            </div>
+            <div className="flex overflow-x-auto no-scrollbar gap-8 snap-x snap-mandatory pb-4">
               {artist.similarArtists.filter((a: any) => a.artistId?.startsWith('UC') || a.artistId?.startsWith('HC')).map((similar: any, index: number) => (
                 <div 
                   key={`similar-${similar.artistId}-${index}`} 
-                  className="w-32 shrink-0 snap-start group cursor-pointer flex flex-col items-center text-center"
+                  className="w-36 shrink-0 snap-start group cursor-pointer flex flex-col items-center text-center"
                   onClick={() => router.push(`/artist/${similar.artistId}`)}
                 >
-                  <div className="relative w-32 h-32 rounded-full overflow-hidden mb-3 bg-white/10">
+                  <div className="relative w-36 h-36 rounded-full overflow-hidden mb-4 border border-[#FAF9F6]/10 shadow-lg">
                     {similar.thumbnails?.[similar.thumbnails.length - 1]?.url && (
                       <Image 
                         src={getHighResImage(similar.thumbnails[similar.thumbnails.length - 1].url, 400)} 
                         alt={similar.name} 
                         fill 
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
                       />
                     )}
                   </div>
-                  <MarqueeText text={similar.name} className="text-white font-medium" />
+                  <MarqueeText text={similar.name} className="text-[#FAF9F6] font-serif text-[15px]" />
                 </div>
               ))}
             </div>

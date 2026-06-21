@@ -144,76 +144,83 @@ export default function PlaylistPage() {
   const isSelfCreated = /^\d+$/.test(playlist.id);
 
   return (
-    <main className="min-h-screen pb-20">
-      <div className="sticky top-0 z-10 bg-black/50 backdrop-blur-md px-4 py-4 flex items-center gap-4">
-        <button onClick={() => router.back()} className="text-white">
-          <ArrowLeft className="w-6 h-6" />
+    <main className="min-h-screen pb-24">
+      <div className="absolute top-0 w-full h-[50vh] bg-gradient-to-b from-[#FAF9F6]/5 to-[#121110] z-0 pointer-events-none" />
+      
+      <div className="sticky top-0 z-20 bg-[#121110]/80 backdrop-blur-xl border-b border-[#FAF9F6]/5 px-6 py-4 flex items-center gap-4 transition-all">
+        <button onClick={() => router.back()} className="text-[#FAF9F6] hover:text-[#FAF9F6]/70 transition-colors">
+          <ArrowLeft className="w-5 h-5" strokeWidth={1.5} />
         </button>
+        <span className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50">Playlist</span>
       </div>
 
-      <div className="px-4 pt-4 pb-8 flex flex-col items-center text-center">
-        <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-2xl overflow-hidden shadow-2xl mb-6 relative bg-white/5 flex items-center justify-center">
+      <div className="px-6 pt-8 pb-12 flex flex-col items-center text-center relative z-10 border-b border-[#FAF9F6]/5">
+        <div className="w-64 h-64 sm:w-80 sm:h-80 overflow-hidden shadow-2xl mb-8 relative bg-[#121110] flex items-center justify-center border border-[#FAF9F6]/10">
           {playlist.img ? (
-            <Image src={playlist.img} alt={playlist.name} fill sizes="(max-width: 640px) 100vw, 300px" className="object-cover" />
+            <Image src={playlist.img} alt={playlist.name} fill sizes="(max-width: 640px) 100vw, 400px" className="object-cover grayscale-[20%]" />
           ) : (
-            <Music className="w-20 h-20 text-white/20" />
+            <Music className="w-20 h-20 text-[#FAF9F6]/20" strokeWidth={1} />
           )}
         </div>
-        <div className="w-full max-w-sm mb-2">
-          <MarqueeText text={playlist.name} className="text-2xl sm:text-3xl font-bold text-white text-center" />
+        <div className="w-full max-w-2xl mb-4">
+          <MarqueeText text={playlist.name} className="text-4xl sm:text-6xl font-serif font-bold text-[#FAF9F6] text-center tracking-tight leading-tight" />
         </div>
-        <p className="text-white/50 mb-6">{playlist.tracks.length} lagu</p>
+        <p className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/40 mb-10">{playlist.tracks.length} TRACKS</p>
 
-        <div className="flex items-center gap-4 w-full justify-center">
+        <div className="flex items-center gap-6 w-full justify-center">
           <button 
             onClick={handlePlayAll}
             disabled={playlist.tracks.length === 0}
-            className="w-14 h-14 bg-[#81B29A] rounded-full flex items-center justify-center hover:scale-105 transition-transform disabled:opacity-50"
+            className="w-12 h-12 border border-[#FAF9F6] rounded-full flex items-center justify-center hover:bg-[#FAF9F6] hover:text-[#121110] text-[#FAF9F6] transition-all duration-300 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-[#FAF9F6]"
           >
-            <Play className="w-7 h-7 text-black fill-current ml-1" />
+            <Play className="w-4 h-4 fill-current ml-0.5" strokeWidth={1} />
           </button>
           <button 
             onClick={handleRadio}
             disabled={playlist.tracks.length === 0}
-            className="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors disabled:opacity-50"
+            className="w-12 h-12 border border-[#FAF9F6]/20 rounded-full flex items-center justify-center hover:border-[#FAF9F6]/60 text-[#FAF9F6]/60 hover:text-[#FAF9F6] transition-all duration-300 disabled:opacity-30"
           >
-            <Radio className="w-6 h-6 text-white" />
+            <Radio className="w-4 h-4" strokeWidth={1} />
           </button>
           {!isSelfCreated && (
             <button 
               onClick={handleSavePlaylist}
-              className="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
-              title={isSaved ? "Hapus dari Koleksi" : "Simpan ke Koleksi"}
+              className="w-12 h-12 border border-[#FAF9F6]/20 rounded-full flex items-center justify-center hover:border-[#FAF9F6]/60 text-[#FAF9F6]/60 hover:text-[#FAF9F6] transition-all duration-300"
+              title={isSaved ? "Remove from Library" : "Save to Library"}
             >
-              {isSaved ? <BookmarkCheck className="w-6 h-6 text-[#81B29A]" /> : <BookmarkPlus className="w-6 h-6 text-white" />}
+              {isSaved ? <BookmarkCheck className="w-5 h-5 text-[#FAF9F6]" strokeWidth={1.5} /> : <BookmarkPlus className="w-5 h-5" strokeWidth={1.5} />}
             </button>
           )}
           {isSelfCreated && isSaved && (
             <button 
               onClick={handleDeletePlaylist}
-              className="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center hover:bg-red-500/20 hover:text-red-500 transition-colors"
-              title="Hapus Playlist"
+              className="w-12 h-12 border border-red-500/30 rounded-full flex items-center justify-center hover:bg-red-500/10 hover:border-red-500 text-red-500/70 hover:text-red-500 transition-all duration-300"
+              title="Delete Playlist"
             >
-              <Trash2 className="w-6 h-6" />
+              <Trash2 className="w-4 h-4" strokeWidth={1} />
             </button>
           )}
         </div>
       </div>
 
-      <div className="px-4 max-w-3xl mx-auto">
+      <div className="px-6 max-w-4xl mx-auto pt-6 relative z-10">
         {playlist.tracks.length === 0 ? (
-          <div className="text-center text-white/50 py-12">
-            Belum ada lagu di playlist ini.
+          <div className="text-center text-[#FAF9F6]/40 font-serif italic py-16">
+            No tracks in this playlist yet.
           </div>
         ) : (
-          <div className="space-y-1">
+          <div className="flex flex-col">
             {playlist.tracks.map((track, index) => (
-              <TrackItem 
-                key={`${track.videoId}-${index}`} 
-                track={track} 
-                queue={playlist.tracks} 
-                onRemove={isSelfCreated ? handleRemoveSong : undefined}
-              />
+              <div key={`${track.videoId}-${index}`} className="flex items-center group relative">
+                <span className="w-8 text-[9px] font-sans tracking-widest text-[#FAF9F6]/30 hidden sm:block shrink-0 pt-1 group-hover:text-[#FAF9F6] transition-colors">{index + 1}</span>
+                <div className="flex-1 min-w-0">
+                  <TrackItem 
+                    track={track} 
+                    queue={playlist.tracks} 
+                    onRemove={isSelfCreated ? handleRemoveSong : undefined}
+                  />
+                </div>
+              </div>
             ))}
           </div>
         )}

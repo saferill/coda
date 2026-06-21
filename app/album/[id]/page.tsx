@@ -44,45 +44,49 @@ export default async function AlbumPage({ params }: { params: Promise<{ id: stri
   };
 
   return (
-    <main className="min-h-screen pb-24 bg-black">
-      <div className="sticky top-0 z-10 bg-black/50 backdrop-blur-md pt-6 pb-4 px-4 flex items-center justify-between">
-        <div className="flex items-center gap-4 flex-1 min-w-0">
-          <Link href="/" className="text-white hover:bg-white/10 p-2 rounded-full transition-colors shrink-0">
-            <ArrowLeft className="w-6 h-6" />
-          </Link>
-          <MarqueeText text={album.name} className="text-xl font-bold text-white" />
-        </div>
+    <main className="min-h-screen pb-24">
+      <div className="absolute top-0 w-full h-[50vh] bg-gradient-to-b from-[#FAF9F6]/5 to-[#121110] z-0 pointer-events-none" />
+
+      <div className="sticky top-0 z-20 bg-[#121110]/80 backdrop-blur-xl border-b border-[#FAF9F6]/5 px-6 py-4 flex items-center gap-4 transition-all">
+        <Link href="/" className="text-[#FAF9F6] hover:text-[#FAF9F6]/70 transition-colors">
+          <ArrowLeft className="w-5 h-5" strokeWidth={1.5} />
+        </Link>
+        <span className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50">Album</span>
       </div>
 
-      <div className="flex flex-col items-center px-4 mt-4 mb-8">
-        <div className="relative w-64 h-64 rounded-xl overflow-hidden shadow-2xl mb-6">
-          <Image src={getHighResImage(coverImage, 800)} alt={album.name} fill sizes="(max-width: 640px) 100vw, 300px" className="object-cover" />
+      <div className="px-6 pt-8 pb-12 flex flex-col items-center text-center relative z-10 border-b border-[#FAF9F6]/5">
+        <div className="w-64 h-64 sm:w-80 sm:h-80 overflow-hidden shadow-2xl mb-8 relative bg-[#121110] flex items-center justify-center border border-[#FAF9F6]/10">
+          <Image src={getHighResImage(coverImage, 800)} alt={album.name} fill sizes="(max-width: 640px) 100vw, 400px" className="object-cover grayscale-[20%]" />
         </div>
-        <h2 className="text-2xl font-bold text-white mb-2 text-center">{album.name}</h2>
-        <Link href={`/artist/${album.artist.artistId}`} className="text-white/80 hover:underline text-base mb-2">
+        <div className="w-full max-w-2xl mb-4">
+          <MarqueeText text={album.name} className="text-4xl sm:text-6xl font-serif font-bold text-[#FAF9F6] text-center tracking-tight leading-tight" />
+        </div>
+        <Link href={`/artist/${album.artist.artistId}`} className="text-sm font-sans tracking-widest uppercase text-[#FAF9F6]/80 hover:text-[#FAF9F6] transition-colors mb-2 block border-b border-transparent hover:border-[#FAF9F6]/40 pb-1">
           {album.artist.name}
         </Link>
-        <p className="text-white/60 text-sm mb-6">
-          {album.year} • {album.songs.length} lagu • {formatDuration(totalDuration)}
+        <p className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/40 mb-10">
+          {album.year} • {album.songs.length} TRACKS • {formatDuration(totalDuration)}
         </p>
         
         <AlbumClient album={album} />
       </div>
 
-      <div className="space-y-1">
-        {album.songs.map((track, index) => {
-          const artistName = Array.isArray(track.artist) ? track.artist.map(a => a.name).join(', ') : track.artist?.name || album.artist.name;
-          
-          return (
-            <AlbumTrackItem 
-              key={`${track.videoId}-${index}`} 
-              track={track} 
-              index={index} 
-              album={album} 
-              artistName={artistName} 
-            />
-          );
-        })}
+      <div className="px-6 max-w-4xl mx-auto pt-6 relative z-10">
+        <div className="flex flex-col">
+          {album.songs.map((track, index) => {
+            const artistName = Array.isArray(track.artist) ? track.artist.map(a => a.name).join(', ') : track.artist?.name || album.artist.name;
+            
+            return (
+              <AlbumTrackItem 
+                key={`${track.videoId}-${index}`} 
+                track={track} 
+                index={index} 
+                album={album} 
+                artistName={artistName} 
+              />
+            );
+          })}
+        </div>
       </div>
     </main>
   );

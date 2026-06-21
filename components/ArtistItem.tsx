@@ -11,15 +11,15 @@ export function ArtistItem({ artist }: { artist: any }) {
 
   return (
     <div
-      className="flex items-center p-3 hover:bg-white/5 rounded-xl cursor-pointer group transition-colors"
+      className="flex items-center p-3 hover:bg-[#FAF9F6]/5 rounded-sm cursor-pointer group transition-colors duration-300 border-b border-[#FAF9F6]/5 last:border-0"
       onClick={() => router.push(`/artist/${artist.artistId}`)}
     >
-      <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 bg-white/10">
-        {thumbnail && <Image src={thumbnail} alt={artist.name} fill sizes="48px" className="object-cover" />}
+      <div className="relative w-16 h-16 rounded-full overflow-hidden shrink-0 bg-[#FAF9F6]/5 shadow-lg">
+        {thumbnail && <Image src={thumbnail} alt={artist.name} fill sizes="64px" className="object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" />}
       </div>
-      <div className="ml-4 flex-1 min-w-0 border-b border-white/5 pb-3 group-hover:border-transparent transition-colors">
-        <MarqueeText text={artist.name} className="font-medium text-white" />
-        <MarqueeText text="Artist" className="text-sm text-gray-400 mt-0.5" />
+      <div className="ml-5 flex-1 min-w-0 pb-1">
+        <MarqueeText text={artist.name} className="font-serif font-bold text-[18px] text-[#FAF9F6] mb-0.5" />
+        <MarqueeText text="Artist" className="text-[9px] font-sans tracking-widest uppercase text-[#FAF9F6]/40" />
       </div>
     </div>
   );

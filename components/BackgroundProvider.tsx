@@ -44,7 +44,7 @@ export function BackgroundProvider() {
   }, [currentTrack?.videoId, currentTrack?.thumbnails, setDominantColor]);
 
   return (
-    <div className="fixed inset-0 -z-50 bg-[#0A0A0A] overflow-hidden pointer-events-none">
+    <div className="fixed inset-0 -z-50 bg-[#121110] overflow-hidden pointer-events-none">
       <AnimatePresence>
         {dominantColor && (
           <motion.div
@@ -52,10 +52,10 @@ export function BackgroundProvider() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            transition={{ duration: 2.5, ease: "easeInOut" }}
             className="absolute inset-0"
             style={{
-              background: `radial-gradient(circle at 50% 0%, color-mix(in srgb, ${dominantColor} 40%, #0A0A0A) 0%, #0A0A0A 100%)`
+              background: `radial-gradient(circle at 50% 0%, color-mix(in srgb, ${dominantColor} 15%, #121110) 0%, #121110 80%)`
             }}
           />
         )}

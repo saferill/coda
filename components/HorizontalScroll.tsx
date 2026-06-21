@@ -12,7 +12,7 @@ export function HorizontalScroll({ title, tracks }: { title: string; tracks: Tra
   const playTrack = usePlayerStore((state) => state.playTrack);
   const router = useRouter();
 
-  let headerContent = <h2 className="text-xl font-bold text-white mb-4 px-4">{title}</h2>;
+  let headerContent = <h2 className="text-sm font-sans tracking-widest uppercase text-[#FAF9F6]/50 mb-6 px-6">{title}</h2>;
 
   if (title.startsWith('Serupa dengan ')) {
     const mainTitle = title.replace('Serupa dengan ', '');
@@ -39,31 +39,31 @@ export function HorizontalScroll({ title, tracks }: { title: string; tracks: Tra
 
     headerContent = (
       <div
-        className="flex items-center justify-between mb-4 px-4 cursor-pointer group"
+        className="flex items-center justify-between mb-8 px-6 cursor-pointer group"
         onClick={handleHeaderClick}
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
           {headerImage && (
-            <div className="w-14 h-14 rounded-md overflow-hidden relative shrink-0">
+            <div className="w-16 h-16 rounded-full overflow-hidden relative shrink-0 grayscale group-hover:grayscale-0 transition-all duration-500">
               <Image src={headerImage} alt={mainTitle} fill className="object-cover" />
             </div>
           )}
-          <div className="flex flex-col justify-center">
-            <span className="text-sm text-white/70 font-medium">Serupa dengan</span>
-            <h2 className="text-2xl font-bold text-white leading-tight">{mainTitle}</h2>
+          <div className="flex flex-col justify-center gap-1">
+            <span className="text-[9px] text-[#FAF9F6]/40 font-sans tracking-widest uppercase">Similar to</span>
+            <h2 className="text-2xl font-serif font-bold text-[#FAF9F6] leading-tight">{mainTitle}</h2>
           </div>
         </div>
-        <button className="p-2 text-white/70 group-hover:text-white transition-colors">
-          <ArrowRight className="w-6 h-6" />
+        <button className="p-3 border border-[#FAF9F6]/10 rounded-full text-[#FAF9F6]/40 group-hover:text-[#FAF9F6] group-hover:border-[#FAF9F6]/40 transition-all duration-300">
+          <ArrowRight className="w-4 h-4" strokeWidth={1} />
         </button>
       </div>
     );
   }
 
   return (
-    <div className="mb-8">
+    <div className="mb-16">
       {headerContent}
-      <div className="flex overflow-x-auto no-scrollbar gap-4 px-4 pb-4 snap-x snap-mandatory scroll-smooth">
+      <div className="flex overflow-x-auto no-scrollbar gap-6 px-6 pb-4 snap-x snap-mandatory scroll-smooth">
         {tracks.map((track, i) => {
           const thumbnail = getHighResImage(track.thumbnails?.[track.thumbnails.length - 1]?.url, 400);
           const artistName = Array.isArray(track.artist) ? track.artist.map(a => a.name).join(', ') : track.artist?.name || 'Unknown Artist';
@@ -74,22 +74,15 @@ export function HorizontalScroll({ title, tracks }: { title: string; tracks: Tra
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="flex-none w-36 cursor-pointer group snap-center hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200"
+              transition={{ duration: 0.5, delay: i * 0.05, ease: "easeOut" }}
+              className="flex-none w-[140px] cursor-pointer group snap-center"
               onClick={() => playTrack(track, tracks)}
             >
-              <div className="relative w-36 h-36 rounded-xl overflow-hidden mb-2 shadow-lg transition-transform duration-300">
-                <Image src={thumbnail} alt={track.name} fill sizes="144px" className="object-cover" />
-                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <div className="w-10 h-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center">
-                    <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
+              <div className="relative w-full aspect-square rounded-sm overflow-hidden mb-4 shadow-lg">
+                <Image src={thumbnail} alt={track.name} fill sizes="140px" className="object-cover group-hover:scale-105 transition-transform duration-[1s] ease-out" />
               </div>
-              <MarqueeText text={track.name} className="text-sm font-medium text-white leading-tight" />
-              <MarqueeText text={artistName} className="text-xs text-gray-400 mt-1" />
+              <MarqueeText text={track.name} className="text-[#FAF9F6] text-sm font-serif font-medium mb-1" />
+              <MarqueeText text={artistName} className="text-[9px] font-sans tracking-widest uppercase text-[#FAF9F6]/40" />
             </motion.div>
           );
         })}

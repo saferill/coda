@@ -42,33 +42,33 @@ export function CommunityPlaylistCard({ playlistId }: { playlistId: string }) {
 
   if (loading) {
     return (
-      <div className="w-[320px] bg-[#1C1C1E] rounded-3xl p-5 shrink-0 snap-center flex flex-col animate-pulse">
-        <div className="flex gap-4 mb-6">
-          <div className="w-24 h-24 rounded-2xl bg-white/10 shrink-0" />
+      <div className="w-[320px] bg-transparent border border-[#FAF9F6]/10 rounded-sm p-6 shrink-0 snap-center flex flex-col animate-pulse">
+        <div className="flex gap-5 mb-8">
+          <div className="w-20 h-20 bg-[#FAF9F6]/5 shrink-0 rounded-sm" />
           <div className="flex flex-col justify-center flex-1">
-            <div className="h-5 w-3/4 bg-white/10 rounded-md mb-2" />
-            <div className="h-4 w-1/2 bg-white/10 rounded-md" />
+            <div className="h-4 w-3/4 bg-[#FAF9F6]/5 mb-3" />
+            <div className="h-3 w-1/2 bg-[#FAF9F6]/5" />
           </div>
         </div>
 
-        <div className="flex-1 space-y-4 mb-6">
+        <div className="flex-1 space-y-5 mb-8">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-lg bg-white/10 shrink-0" />
+            <div key={i} className="flex items-center gap-4">
+              <div className="w-10 h-10 bg-[#FAF9F6]/5 shrink-0 rounded-sm" />
               <div className="flex flex-col flex-1 gap-2">
-                <div className="h-4 w-full bg-white/10 rounded-md" />
-                <div className="h-3 w-2/3 bg-white/10 rounded-md" />
+                <div className="h-3 w-full bg-[#FAF9F6]/5" />
+                <div className="h-2 w-2/3 bg-[#FAF9F6]/5" />
               </div>
             </div>
           ))}
         </div>
 
-        <div className="flex items-center justify-between mt-auto">
-          <div className="flex gap-3">
-            <div className="w-12 h-12 rounded-full bg-white/10" />
-            <div className="w-12 h-12 rounded-full bg-white/10" />
+        <div className="flex items-center justify-between mt-auto pt-4 border-t border-[#FAF9F6]/5">
+          <div className="flex gap-4">
+            <div className="w-10 h-10 rounded-full bg-[#FAF9F6]/5" />
+            <div className="w-10 h-10 rounded-full bg-[#FAF9F6]/5" />
           </div>
-          <div className="w-12 h-12 rounded-full bg-white/10" />
+          <div className="w-10 h-10 rounded-full bg-[#FAF9F6]/5" />
         </div>
       </div>
     );
@@ -115,10 +115,13 @@ export function CommunityPlaylistCard({ playlistId }: { playlistId: string }) {
   return (
     <div 
       onClick={handleClick}
-      className="w-[320px] bg-[#1C1C1E] rounded-3xl p-5 shrink-0 snap-center cursor-pointer hover:bg-[#2C2C2E] transition-colors flex flex-col"
+      className="w-[320px] bg-transparent border border-[#FAF9F6]/10 hover:border-[#FAF9F6]/30 p-6 shrink-0 snap-center cursor-pointer transition-colors duration-500 flex flex-col relative group"
     >
-      <div className="flex gap-4 mb-6">
-        <div className="w-24 h-24 rounded-2xl overflow-hidden relative shrink-0 shadow-lg bg-black/20">
+      {/* Background glow on hover */}
+      <div className="absolute inset-0 bg-[#FAF9F6]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+      <div className="flex gap-5 mb-8 relative z-10">
+        <div className="w-20 h-20 overflow-hidden relative shrink-0 shadow-xl bg-[#121110]">
           {playlist.videos && playlist.videos.length >= 4 ? (
             <div className="grid grid-cols-2 grid-rows-2 w-full h-full">
               {playlist.videos.slice(0, 4).map((track, i) => (
@@ -127,8 +130,8 @@ export function CommunityPlaylistCard({ playlistId }: { playlistId: string }) {
                     src={track.thumbnails?.[track.thumbnails.length - 1]?.url || '/placeholder.png'} 
                     alt={track.name} 
                     fill 
-                    sizes="48px" 
-                    className="object-cover" 
+                    sizes="40px" 
+                    className="object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-500" 
                   />
                 </div>
               ))}
@@ -138,58 +141,58 @@ export function CommunityPlaylistCard({ playlistId }: { playlistId: string }) {
               src={playlist.thumbnails?.[playlist.thumbnails.length - 1]?.url || '/placeholder.png'} 
               alt={playlist.name} 
               fill 
-              sizes="96px" 
-              className="object-cover" 
+              sizes="80px" 
+              className="object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-500" 
             />
           )}
         </div>
         <div className="flex flex-col justify-center min-w-0 flex-1">
-          <MarqueeText text={playlist.name} className="text-white font-bold text-lg leading-tight mb-1" />
-          <p className="text-white/50 text-sm">{playlist.videos?.length || 0} lagu</p>
+          <MarqueeText text={playlist.name} className="text-[#FAF9F6] font-serif font-bold text-xl leading-tight mb-2" />
+          <p className="text-[#FAF9F6]/40 text-[9px] font-sans tracking-widest uppercase">{playlist.videos?.length || 0} TRACKS</p>
         </div>
       </div>
 
-      <div className="flex-1 space-y-4 mb-6">
+      <div className="flex-1 space-y-5 mb-8 relative z-10">
         {displayTracks.map((track, i) => (
-          <div key={i} className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-lg overflow-hidden relative shrink-0">
+          <div key={i} className="flex items-center gap-4">
+            <div className="w-10 h-10 overflow-hidden relative shrink-0">
               <Image 
                 src={track.thumbnails?.[track.thumbnails.length - 1]?.url || '/placeholder.png'} 
                 alt={track.name} 
                 fill 
-                sizes="48px" 
-                className="object-cover" 
+                sizes="40px" 
+                className="object-cover grayscale-[50%] group-hover:grayscale-0 transition-all duration-500" 
               />
             </div>
             <div className="flex flex-col overflow-hidden min-w-0 flex-1">
-              <MarqueeText text={track.name} className="text-white text-[15px] font-medium" />
+              <MarqueeText text={track.name} className="text-[#FAF9F6] text-sm font-serif mb-0.5" />
               <MarqueeText 
                 text={Array.isArray(track.artist) ? track.artist.map(a => a.name).join(', ') : track.artist?.name || 'Unknown Artist'} 
-                className="text-white/50 text-sm" 
+                className="text-[#FAF9F6]/40 text-[9px] font-sans tracking-widest uppercase" 
               />
             </div>
           </div>
         ))}
       </div>
 
-      <div className="flex items-center gap-3 mt-auto">
+      <div className="flex items-center gap-4 mt-auto pt-4 border-t border-[#FAF9F6]/10 relative z-10">
         <button 
           onClick={handlePlay}
-          className="w-14 h-14 bg-[#81B29A] rounded-full flex items-center justify-center hover:scale-105 transition-transform"
+          className="w-10 h-10 border border-[#FAF9F6] rounded-full flex items-center justify-center hover:bg-[#FAF9F6] hover:text-[#121110] text-[#FAF9F6] transition-all duration-300"
         >
-          <Play className="w-7 h-7 text-black fill-current ml-1" />
+          <Play className="w-4 h-4 fill-current ml-0.5" strokeWidth={1} />
         </button>
         <button 
           onClick={handleRadio}
-          className="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+          className="w-10 h-10 border border-[#FAF9F6]/20 rounded-full flex items-center justify-center hover:border-[#FAF9F6]/60 text-[#FAF9F6]/60 hover:text-[#FAF9F6] transition-all duration-300"
         >
-          <Radio className="w-6 h-6 text-white" />
+          <Radio className="w-4 h-4" strokeWidth={1} />
         </button>
         <button 
           onClick={handleAdd}
-          className="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+          className="w-10 h-10 border border-[#FAF9F6]/20 rounded-full flex items-center justify-center hover:border-[#FAF9F6]/60 text-[#FAF9F6]/60 hover:text-[#FAF9F6] transition-all duration-300 ml-auto"
         >
-          {added ? <Check className="w-6 h-6 text-white" /> : <PlusSquare className="w-6 h-6 text-white" />}
+          {added ? <Check className="w-4 h-4" strokeWidth={1} /> : <Plus className="w-4 h-4" strokeWidth={1} />}
         </button>
       </div>
     </div>

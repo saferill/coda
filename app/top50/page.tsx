@@ -50,45 +50,50 @@ export default function Top50Page() {
 
   return (
     <main className="min-h-screen pb-24">
-      <div className="sticky top-0 z-10 bg-black/50 backdrop-blur-md pt-6 pb-4 px-4 flex items-center justify-between">
+      <div className="sticky top-0 z-20 bg-[#121110]/80 backdrop-blur-xl border-b border-[#FAF9F6]/5 pt-6 pb-4 px-6 flex items-center justify-between transition-all">
         <div className="flex items-center gap-4">
-          <button onClick={() => router.back()} className="text-white hover:bg-white/10 p-2 rounded-full transition-colors">
-            <ArrowLeft className="w-6 h-6" />
+          <button onClick={() => router.back()} className="text-[#FAF9F6] hover:text-[#FAF9F6]/70 transition-colors">
+            <ArrowLeft className="w-5 h-5" strokeWidth={1.5} />
           </button>
-          <h1 className="text-xl font-bold text-white">Teratas Saya 50</h1>
+          <span className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]">My Top 50</span>
         </div>
-        <button className="text-white hover:bg-white/10 p-2 rounded-full transition-colors">
-          <Search className="w-6 h-6" />
+        <button className="text-[#FAF9F6] hover:text-[#FAF9F6]/70 transition-colors">
+          <Search className="w-5 h-5" strokeWidth={1.5} />
         </button>
       </div>
 
-      <div className="flex flex-col items-center px-4 mt-4 mb-8">
-        <div className="relative w-64 h-64 rounded-xl overflow-hidden shadow-2xl mb-6">
-          <Image src={coverImage} alt="Teratas Saya 50" fill sizes="(max-width: 640px) 100vw, 300px" className="object-cover" />
+      <div className="flex flex-col items-center px-6 mt-12 mb-16">
+        <div className="relative w-64 h-64 border border-[#FAF9F6]/10 mb-8 overflow-hidden shadow-2xl group cursor-pointer" onClick={() => topTracks.length > 0 && playTrack(topTracks[0], topTracks)}>
+          <Image src={coverImage} alt="My Top 50" fill sizes="(max-width: 640px) 100vw, 300px" className="object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" />
+          <div className="absolute inset-0 bg-[#121110]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full border border-[#FAF9F6] flex items-center justify-center text-[#FAF9F6] backdrop-blur-sm">
+              <Play className="w-6 h-6 fill-current ml-1" strokeWidth={1} />
+            </div>
+          </div>
         </div>
-        <h2 className="text-2xl font-bold text-white mb-2">Teratas Saya 50</h2>
-        <p className="text-white/60 text-sm mb-6">
-          {topTracks.length} lagu • {formatDuration(totalDuration)}
+        <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#FAF9F6] mb-3 tracking-tight text-center">My Top 50</h2>
+        <p className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/40 mb-8 text-center">
+          {topTracks.length} TRACKS • {formatDuration(totalDuration)}
         </p>
         
-        <div className="flex items-center gap-4">
-          <button className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
-            <Shuffle className="w-5 h-5 text-white" />
+        <div className="flex items-center gap-6">
+          <button className="text-[#FAF9F6]/40 hover:text-[#FAF9F6] transition-colors">
+            <Shuffle className="w-5 h-5" strokeWidth={1.5} />
           </button>
           <button 
-            className="w-16 h-16 bg-[#A3C9A8] rounded-full flex items-center justify-center hover:scale-105 transition-transform"
+            className="w-14 h-14 border border-[#FAF9F6] rounded-full flex items-center justify-center text-[#FAF9F6] hover:bg-[#FAF9F6] hover:text-[#121110] transition-all"
             onClick={() => topTracks.length > 0 && playTrack(topTracks[0], topTracks)}
           >
-            <Play className="w-8 h-8 text-black fill-current ml-1" />
+            <Play className="w-5 h-5 fill-current ml-0.5" strokeWidth={1} />
           </button>
-          <button className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
-            <MoreVertical className="w-5 h-5 text-white" />
+          <button className="text-[#FAF9F6]/40 hover:text-[#FAF9F6] transition-colors">
+            <MoreVertical className="w-5 h-5" strokeWidth={1.5} />
           </button>
         </div>
       </div>
 
-      <div className="px-4 mb-4">
-        <h3 className="text-sm font-medium text-white/80">Sepanjang waktu</h3>
+      <div className="px-6 mb-6">
+        <h3 className="text-[9px] font-sans tracking-widest uppercase text-[#FAF9F6]/50 border-b border-[#FAF9F6]/10 pb-4">All time</h3>
       </div>
 
       <div className="space-y-1">
@@ -98,29 +103,29 @@ export default function Top50Page() {
           return (
             <div 
               key={track.videoId} 
-              className="flex items-center gap-4 py-2 cursor-pointer hover:bg-white/5 px-4 rounded-xl transition-colors"
+              className="flex items-center gap-4 py-3 cursor-pointer hover:bg-[#FAF9F6]/5 px-6 transition-colors duration-300 border-b border-[#FAF9F6]/5 last:border-0 group"
               onClick={() => playTrack(track, topTracks)}
             >
-              <div className="w-6 text-center text-white/60 font-medium">
+              <div className="w-6 text-center text-[#FAF9F6]/30 text-[9px] font-sans tracking-widest pt-1 group-hover:text-[#FAF9F6] transition-colors">
                 {index + 1}
               </div>
-              <div className="flex-1 min-w-0">
-                <MarqueeText text={track.name} className="text-white font-medium text-base" />
+              <div className="flex-1 min-w-0 pb-1 pl-2 border-l border-[#FAF9F6]/10 ml-2 group-hover:border-transparent transition-colors">
+                <MarqueeText text={track.name} className="font-serif text-[15px] mb-0.5 text-[#FAF9F6]" />
                 <MarqueeText 
                   text={`${artistName}${track.duration ? ` • ${Math.floor(track.duration / 60)}:${Math.floor(track.duration % 60).toString().padStart(2, '0')}` : ''}`} 
-                  className="text-white/60 text-sm" 
+                  className="text-[9px] font-sans tracking-widest uppercase text-[#FAF9F6]/40" 
                 />
               </div>
-              <button className="p-2 text-white/60 hover:text-white transition-colors">
-                <MoreVertical className="w-5 h-5" />
+              <button className="p-2 text-[#FAF9F6]/30 hover:text-[#FAF9F6] transition-colors opacity-0 group-hover:opacity-100">
+                <MoreVertical className="w-4 h-4" strokeWidth={1} />
               </button>
             </div>
           );
         })}
 
         {topTracks.length === 0 && (
-          <div className="text-center text-white/50 mt-10">
-            Belum ada lagu yang sering diputar
+          <div className="text-center text-[#FAF9F6]/40 font-serif italic mt-32">
+            No top tracks yet
           </div>
         )}
       </div>

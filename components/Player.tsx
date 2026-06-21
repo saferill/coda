@@ -41,6 +41,7 @@ export function Player() {
   const [isAlternativeTrying, setIsAlternativeTrying] = useState(false);
   
   const playerRef = useRef<any>(null);
+  const targetVideoIdRef = useRef<string | null>(null);
   const lyricsContainerRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
@@ -48,6 +49,15 @@ export function Player() {
     setActiveVideoId(currentTrack?.videoId || null);
     setIsAlternativeTrying(false);
   }, [currentTrack?.videoId]);
+
+  useEffect(() => {
+    if (playerRef.current && activeVideoId) {
+      if (targetVideoIdRef.current !== activeVideoId) {
+        targetVideoIdRef.current = activeVideoId;
+        playerRef.current.loadVideoById(activeVideoId);
+      }
+    }
+  }, [activeVideoId]);
 
   // Smooth scroll lyrics
   useEffect(() => {
@@ -124,6 +134,12 @@ export function Player() {
 
   const onReady = useCallback(async (event: any) => {
     playerRef.current = event.target;
+    // Load current track immediately if it exists (for first load)
+    const { currentTrack } = usePlayerStore.getState();
+    if (currentTrack?.videoId) {
+      targetVideoIdRef.current = currentTrack.videoId;
+      event.target.loadVideoById(currentTrack.videoId);
+    }
     const duration = await event.target.getDuration();
     setDuration(duration || 0);
   }, [setDuration]);
@@ -148,10 +164,12 @@ export function Player() {
         event.target.playVideo();
       } else {
         // Optimistically load next video to bypass React background throttling
+        // Doing this imperatively within the trusted ENDED event prevents browser autoplay blocks
         const { queue, queueIndex } = usePlayerStore.getState();
         if (queueIndex < queue.length - 1) {
           const nextTrack = queue[queueIndex + 1];
           if (nextTrack?.videoId) {
+            targetVideoIdRef.current = nextTrack.videoId;
             event.target.loadVideoById(nextTrack.videoId);
           }
         }
@@ -325,24 +343,21 @@ export function Player() {
     <>
       {/* Hidden YouTube Player */}
       <div className="fixed top-[-1000px] left-[-1000px] w-[1px] h-[1px] opacity-0 pointer-events-none">
-        {activeVideoId && (
-          <YouTube
-            videoId={activeVideoId}
-            opts={{
-              height: '1',
-              width: '1',
-              playerVars: {
-                autoplay: 1,
-                controls: 0,
-                playsinline: 1,
-                origin: typeof window !== 'undefined' ? window.location.origin : 'https://www.youtube.com',
-              },
-            }}
-            onReady={onReady}
-            onStateChange={onStateChange}
-            onError={onError}
-          />
-        )}
+        <YouTube
+          opts={{
+            height: '1',
+            width: '1',
+            playerVars: {
+              autoplay: 1,
+              controls: 0,
+              playsinline: 1,
+              origin: typeof window !== 'undefined' ? window.location.origin : 'https://www.youtube.com',
+            },
+          }}
+          onReady={onReady}
+          onStateChange={onStateChange}
+          onError={onError}
+        />
       </div>
 
       {/* Mini Player */}
@@ -352,9 +367,17 @@ export function Player() {
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-[80px] left-4 right-4 z-50 bg-[#1C1C1E]/95 backdrop-blur-md rounded-full flex items-center p-2 pr-4 cursor-pointer shadow-2xl border border-white/10"
+            className="fixed bottom-[64px] left-0 right-0 z-50 bg-[#121110]/90 backdrop-blur-xl flex items-center p-3 px-6 cursor-pointer border-t border-[#FAF9F6]/10"
             onClick={() => setExpanded(true)}
           >
+            {/* Top edge progress bar */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#FAF9F6]/10">
+              <div 
+                className="h-full bg-[#FAF9F6] transition-all duration-1000 ease-linear" 
+                style={{ width: `${duration > 0 ? (progress / duration) * 100 : 0}%` }}
+              />
+            </div>
+
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentTrack.videoId}
@@ -364,53 +387,43 @@ export function Player() {
                 transition={{ duration: 0.3 }}
                 className="flex items-center flex-1 min-w-0"
               >
-                {/* Circular Album Art with Progress */}
-                <div className="relative w-12 h-12 shrink-0 mr-3">
-                  <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="4" />
-                    <circle 
-                      cx="50" cy="50" r="46" fill="none" stroke="#A78BFA" strokeWidth="4" 
-                      strokeDasharray={`${2 * Math.PI * 46}`}
-                      strokeDashoffset={`${2 * Math.PI * 46 * (1 - (duration > 0 ? progress / duration : 0))}`}
-                      strokeLinecap="round"
-                      className="transition-all duration-1000 ease-linear"
-                    />
-                  </svg>
-                  <div className="absolute inset-1 rounded-full overflow-hidden">
+                {/* Square Album Art */}
+                <div className="relative w-12 h-12 shrink-0 mr-4 shadow-lg">
+                  <div className="absolute inset-0 overflow-hidden rounded-sm">
                     <Image src={thumbnail} alt={currentTrack.name} fill sizes="(max-width: 640px) 100vw, 500px" className="object-cover" />
                   </div>
                 </div>
 
                 <div className="flex-1 min-w-0 flex flex-col justify-center">
-                  <MarqueeText text={currentTrack.name} className="text-white text-sm font-semibold" />
+                  <MarqueeText text={currentTrack.name} className="text-[#FAF9F6] text-[15px] font-serif font-medium tracking-wide" />
                   <MarqueeText 
                     text={
                       <>
-                        {currentTrack.isExplicit && <span className="bg-white/20 text-[8px] px-1 rounded-sm text-white">E</span>}
+                        {currentTrack.isExplicit && <span className="bg-[#FAF9F6]/20 text-[8px] px-1 rounded-sm text-[#FAF9F6] mr-1">E</span>}
                         {artistName}
                       </>
                     } 
-                    className="text-white/60 text-xs" 
+                    className="text-[#FAF9F6]/50 text-[11px] font-sans tracking-widest uppercase mt-0.5" 
                   />
                 </div>
               </motion.div>
             </AnimatePresence>
 
-            <div className="flex items-center gap-2 shrink-0 ml-2">
+            <div className="flex items-center gap-4 shrink-0 ml-4">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   togglePlay();
                 }}
-                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+                className="w-10 h-10 flex items-center justify-center text-[#FAF9F6] hover:scale-110 transition-transform"
               >
-                {isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current ml-0.5" />}
+                {isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current" />}
               </button>
               <button
                 onClick={handleLike}
-                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+                className="flex items-center justify-center text-[#FAF9F6] hover:scale-110 transition-transform"
               >
-                <Heart className={`w-5 h-5 ${isLiked ? 'fill-[#FA243C] text-[#FA243C]' : ''}`} />
+                <Heart className={`w-5 h-5 ${isLiked ? 'fill-[#FAF9F6]' : ''}`} strokeWidth={1.5} />
               </button>
             </div>
           </motion.div>
@@ -428,8 +441,8 @@ export function Player() {
             className="fixed inset-0 z-[100] flex flex-col p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] md:pb-8"
             style={{
               background: dominantColor 
-                ? `linear-gradient(to bottom, color-mix(in srgb, ${dominantColor} 40%, #121212) 0%, #121212 100%)`
-                : '#121212'
+                ? `linear-gradient(to bottom, color-mix(in srgb, ${dominantColor} 15%, #121110) 0%, #121110 100%)`
+                : '#121110'
             }}
           >
             {/* Header */}
@@ -535,76 +548,76 @@ export function Player() {
                           transition={{ duration: 0.3 }}
                           className="min-w-0 flex-1 pr-4"
                         >
-                          <MarqueeText text={currentTrack.name} className="text-2xl font-bold text-white mb-1" />
-                          <MarqueeText text={artistName} className="text-lg text-white/60" />
+                          <MarqueeText text={currentTrack.name} className="text-3xl font-serif font-bold text-[#FAF9F6] mb-2" />
+                          <MarqueeText text={artistName} className="text-xs font-sans tracking-widest uppercase text-[#FAF9F6]/60" />
                         </motion.div>
                       </AnimatePresence>
                       <div className="flex items-center gap-4">
-                        <button onClick={() => setTrackToAdd(currentTrack)} className="p-2 text-white/80 hover:text-white transition">
-                          <ListPlus className="w-7 h-7" />
+                        <button onClick={() => setTrackToAdd(currentTrack)} className="p-2 text-[#FAF9F6]/60 hover:text-[#FAF9F6] transition">
+                          <ListPlus className="w-6 h-6" strokeWidth={1.5} />
                         </button>
-                        <button onClick={handleLike} className="p-2 text-white transition">
-                          <Heart className={cn("w-7 h-7", isLiked && "fill-white")} />
+                        <button onClick={handleLike} className="p-2 text-[#FAF9F6] transition hover:scale-110">
+                          <Heart className={cn("w-6 h-6", isLiked && "fill-[#FAF9F6]")} strokeWidth={1.5} />
                         </button>
                       </div>
                     </div>
 
                     {/* Progress Bar */}
-                    <div className="mb-6">
+                    <div className="mb-8">
                       <input
                         type="range"
                         min={0}
                         max={duration || 100}
                         value={progress || 0}
                         onChange={handleSeek}
-                        className="w-full h-1 bg-white/20 rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full cursor-pointer"
+                        className="w-full h-[1px] bg-[#FAF9F6]/20 appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2 [&::-webkit-slider-thumb]:h-2 [&::-webkit-slider-thumb]:bg-[#FAF9F6] [&::-webkit-slider-thumb]:rounded-full cursor-pointer"
                       />
-                      <div className="flex justify-between text-xs text-white/50 mt-2 font-mono">
+                      <div className="flex justify-between text-[10px] tracking-widest text-[#FAF9F6]/40 mt-3 font-sans">
                         <span>{formatTime(progress)}</span>
                         <span>{formatTime(duration)}</span>
                       </div>
                     </div>
 
                     {/* Playback Controls */}
-                    <div className="flex justify-between items-center mb-8 px-2">
+                    <div className="flex justify-between items-center mb-10 px-2">
                       <button 
                         onClick={toggleShuffle}
-                        className={cn("transition", isShuffle ? "text-[#A78BFA]" : "text-white/80 hover:text-white")}
+                        className={cn("transition", isShuffle ? "text-[#FAF9F6]" : "text-[#FAF9F6]/40 hover:text-[#FAF9F6]")}
                       >
-                        <Shuffle className="w-6 h-6" />
+                        <Shuffle className="w-5 h-5" strokeWidth={1.5} />
                       </button>
-                      <button onClick={playPrev} className="text-white hover:text-white transition">
-                        <SkipBack className="w-10 h-10 fill-current" />
+                      <button onClick={playPrev} className="text-[#FAF9F6] hover:scale-110 transition">
+                        <SkipBack className="w-8 h-8 fill-current" strokeWidth={1} />
                       </button>
                       <button
                         onClick={togglePlay}
-                        className="w-20 h-20 flex items-center justify-center bg-white text-black rounded-full hover:scale-105 transition-transform"
+                        className="w-16 h-16 flex items-center justify-center text-[#FAF9F6] hover:scale-105 transition-transform"
                       >
-                        {isPlaying ? <Pause className="w-10 h-10 fill-current" /> : <Play className="w-10 h-10 fill-current ml-1" />}
+                        {isPlaying ? <Pause className="w-12 h-12 fill-current" strokeWidth={1} /> : <Play className="w-12 h-12 fill-current ml-1" strokeWidth={1} />}
                       </button>
-                      <button onClick={playNext} className="text-white hover:text-white transition">
-                        <SkipForward className="w-10 h-10 fill-current" />
+                      <button onClick={playNext} className="text-[#FAF9F6] hover:scale-110 transition">
+                        <SkipForward className="w-8 h-8 fill-current" strokeWidth={1} />
                       </button>
                       <button 
                         onClick={toggleRepeat}
-                        className={cn("transition relative", repeatMode !== 'off' ? "text-[#A78BFA]" : "text-white/80 hover:text-white")}
+                        className={cn("transition relative", repeatMode !== 'off' ? "text-[#FAF9F6]" : "text-[#FAF9F6]/40 hover:text-[#FAF9F6]")}
                       >
-                        {repeatMode === 'one' ? <Repeat1 className="w-6 h-6" /> : <Repeat className="w-6 h-6" />}
+                        {repeatMode === 'one' ? <Repeat1 className="w-5 h-5" strokeWidth={1.5} /> : <Repeat className="w-5 h-5" strokeWidth={1.5} />}
                       </button>
                     </div>
 
                     {/* Bottom Actions */}
-                    <div className="flex justify-between items-center px-6 py-4 bg-white/5 rounded-2xl">
-                      <button className="text-white/80 hover:text-white transition flex flex-col items-center gap-1">
-                        <ListMusic className="w-5 h-5" />
-                        <span className="text-[10px] uppercase tracking-wider">Up Next</span>
+                    <div className="flex justify-between items-center px-6 py-5 border-t border-[#FAF9F6]/5">
+                      <button className="text-[#FAF9F6]/40 hover:text-[#FAF9F6] transition flex flex-col items-center gap-1.5">
+                        <ListMusic className="w-4 h-4" strokeWidth={1.5} />
+                        <span className="text-[8px] uppercase tracking-widest font-sans">Up Next</span>
                       </button>
                       <button
                         onClick={() => setShowLyrics(!showLyrics)}
-                        className={cn("transition flex flex-col items-center gap-1", showLyrics ? "text-white" : "text-white/80 hover:text-white")}
+                        className={cn("transition flex flex-col items-center gap-1.5", showLyrics ? "text-[#FAF9F6]" : "text-[#FAF9F6]/40 hover:text-[#FAF9F6]")}
                       >
-                        <Mic2 className="w-5 h-5" />
-                        <span className="text-[10px] uppercase tracking-wider">Lyrics</span>
+                        <Mic2 className="w-4 h-4" strokeWidth={1.5} />
+                        <span className="text-[8px] uppercase tracking-widest font-sans">Lyrics</span>
                       </button>
                       <button 
                         onClick={() => {
@@ -616,10 +629,10 @@ export function Player() {
                             router.push(`/artist/${artistId}`);
                           }
                         }}
-                        className="text-white/80 hover:text-white transition flex flex-col items-center gap-1"
+                        className="text-[#FAF9F6]/40 hover:text-[#FAF9F6] transition flex flex-col items-center gap-1.5"
                       >
-                        <User className="w-5 h-5" />
-                        <span className="text-[10px] uppercase tracking-wider">Lihat Artis</span>
+                        <User className="w-4 h-4" strokeWidth={1.5} />
+                        <span className="text-[8px] uppercase tracking-widest font-sans">Artist</span>
                       </button>
                     </div>
                   </div>

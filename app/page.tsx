@@ -15,13 +15,6 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { SpeedDialSection } from '@/components/home/SpeedDialSection';
 import { QuickPicksSection } from '@/components/home/QuickPicksSection';
 import { ArtistsSection } from '@/components/home/ArtistsSection';
-import { FilterPills } from '@/components/home/FilterPills';
-
-const PILLS = [
-  'Chill', 'Focus', 'Commute', 'Gaming', 'Energize', 'Party', 
-  'Feel good', 'Romance', 'Workout', 'Sleep', 'Sad', 'Happy', 
-  'Nostalgia', 'Acoustic', 'Pop', 'Rock'
-];
 
 export default function Home() {
   const {
@@ -41,60 +34,36 @@ export default function Home() {
   const playTrack = usePlayerStore((state) => state.playTrack);
 
   return (
-    <main className="min-h-screen pt-6 pb-24">
+    <main className="min-h-screen pt-12 pb-32">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 mb-4">
-        <h1 className="text-2xl font-bold text-white">Beranda</h1>
-        <div className="flex items-center gap-4 text-white/80">
-          <Link href="/history" className="hover:text-white transition-colors">
-            <History className="w-6 h-6" />
-          </Link>
-          <Cast className="w-6 h-6" />
-          <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center relative border border-white/10">
-            <Image src="https://f.top4top.io/p_3733w0g4e0.jpg" alt="Developer Profile" fill sizes="32px" className="object-cover" />
-          </div>
-        </div>
-      </div>
-
-      <FilterPills 
-        pills={PILLS} 
-        activeFilter={activeFilter} 
-        setActiveFilter={setActiveFilter} 
-      />
-
-      {loading || (activeFilter && loadingFilter) ? (
-        <HomeSkeleton />
-      ) : activeFilter ? (
-        <div className="space-y-10">
-          {filterData.map((cat, i) => (
-            <HorizontalScroll key={i} title={cat.title} tracks={cat.tracks} />
-          ))}
-
-          <div className="px-4 mb-8">
-            <h2 className="text-xl font-bold text-white mb-4">Suasana Hati dan Genre</h2>
-            <div className="grid grid-rows-2 grid-flow-col gap-3 overflow-x-auto no-scrollbar pb-4 snap-x snap-mandatory">
-              {PILLS.map((p) => (
-                <button
-                  key={p}
-                  onClick={() => setActiveFilter(p)}
-                  className="bg-[#1C1C1E] hover:bg-white/10 text-white font-medium py-3 px-4 rounded-lg text-left transition-colors border border-white/5 min-w-[160px] snap-center"
-                >
-                  <span className="text-sm">{p}</span>
-                </button>
-              ))}
+      <div className="flex flex-col px-6 mb-12">
+        <div className="flex items-center justify-between w-full">
+          <h1 className="text-4xl font-serif font-bold text-[#FAF9F6] tracking-tight">Discover</h1>
+          <div className="flex items-center gap-5 text-[#FAF9F6]/60">
+            <Link href="/history" className="hover:text-[#FAF9F6] transition-colors">
+              <History className="w-5 h-5" strokeWidth={1.5} />
+            </Link>
+            <Cast className="w-5 h-5" strokeWidth={1.5} />
+            <div className="w-8 h-8 overflow-hidden flex items-center justify-center relative border border-[#FAF9F6]/20">
+              <Image src="https://f.top4top.io/p_3733w0g4e0.jpg" alt="Developer Profile" fill sizes="32px" className="object-cover grayscale hover:grayscale-0 transition-all duration-500" />
             </div>
           </div>
         </div>
+        <div className="h-[1px] w-full bg-[#FAF9F6]/10 mt-6" />
+      </div>
+
+      {loading ? (
+        <HomeSkeleton />
       ) : (
-        <div className="space-y-10">
+        <div className="space-y-16">
           <HeroSection heroTracks={heroTracks} playTrack={playTrack} />
           <SpeedDialSection speedDialTracks={speedDialTracks} playTrack={playTrack} />
           <QuickPicksSection quickPicksTracks={quickPicksTracks} playTrack={playTrack} />
           
           {communityPlaylists.length > 0 && (
-            <div className="px-4">
-              <h2 className="text-2xl font-bold text-[#81B29A] mb-4">From the community</h2>
-              <div className="flex overflow-x-auto no-scrollbar gap-4 snap-x snap-mandatory scroll-smooth pb-4">
+            <div className="px-6">
+              <h2 className="text-sm font-sans tracking-widest uppercase text-[#FAF9F6]/50 mb-6">Curated Selection</h2>
+              <div className="flex overflow-x-auto no-scrollbar gap-6 snap-x snap-mandatory scroll-smooth pb-4">
                 {communityPlaylists.map((playlist, i) => (
                   playlist.playlistId && <CommunityPlaylistCard key={`community-playlist-${playlist.playlistId}-${i}`} playlistId={playlist.playlistId} />
                 ))}

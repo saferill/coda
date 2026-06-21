@@ -80,30 +80,30 @@ export function WelcomePopup() {
               className="w-24 h-24 md:w-32 md:h-32 mb-8 rounded-full overflow-hidden border border-white/20 shadow-[0_0_50px_rgba(255,255,255,0.1)] relative"
             >
               <Image 
-                src="https://f.top4top.io/p_3733w0g4e0.jpg" 
-                alt="Developer Profile" 
+                src="/logo.svg" 
+                alt="Coda Logo" 
                 fill
                 sizes="(max-width: 768px) 96px, 128px"
                 className="object-cover" 
               />
             </motion.div>
             
-            <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 mb-4 tracking-tight drop-shadow-2xl">
-              Welcome to Music App
+            <h1 className="text-4xl md:text-6xl font-serif font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-[#FAF9F6] to-[#FAF9F6]/60 mb-4 tracking-tight drop-shadow-2xl">
+              Welcome to Coda
             </h1>
             
-            <p className="text-lg md:text-xl text-white/50 mb-12 max-w-md font-light">
-              Crafted with passion by <span className="text-white/90 font-medium">Safe_rill</span>
+            <p className="text-lg md:text-xl text-[#FAF9F6]/50 mb-12 max-w-md font-light">
+              Crafted with passion by <span className="text-[#FAF9F6] font-medium">Safe_rill</span>
             </p>
 
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleEnter}
-              className="group flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-white/90 transition-all shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)]"
+              className="group flex items-center gap-3 bg-transparent border border-[#FAF9F6] text-[#FAF9F6] px-8 py-4 rounded-full text-[10px] font-sans tracking-widest uppercase hover:bg-[#FAF9F6] hover:text-[#121110] transition-all duration-500 shadow-[0_0_40px_rgba(250,249,246,0.1)] hover:shadow-[0_0_60px_rgba(250,249,246,0.3)]"
             >
-              <Play className="w-5 h-5 fill-current" />
-              Mulai Mendengarkan
+              <Play className="w-5 h-5 fill-current" strokeWidth={1} />
+              Start Listening
             </motion.button>
           </motion.div>
         </motion.div>

@@ -86,9 +86,9 @@ export default function Search() {
 
   return (
     <main className="min-h-screen pt-6 pb-24">
-      <div className="px-4 mb-4 flex items-center gap-3">
-        <button onClick={() => router.back()} className="text-white hover:bg-white/10 p-2 rounded-full transition-colors">
-          <ArrowLeft className="w-6 h-6" />
+      <div className="px-6 mb-8 flex items-center gap-4 border-b border-[#FAF9F6]/10 pb-4">
+        <button onClick={() => router.back()} className="text-[#FAF9F6] hover:text-[#FAF9F6]/70 transition-colors">
+          <ArrowLeft className="w-5 h-5" strokeWidth={1.5} />
         </button>
         <form onSubmit={onSubmit} className="relative flex-1">
           <input
@@ -97,9 +97,9 @@ export default function Search() {
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setTimeout(() => setIsFocused(false), 200)}
-            placeholder="Mencari"
+            placeholder="Search"
             autoFocus
-            className="w-full bg-[#2A2A2A] text-white rounded-full py-2.5 px-4 focus:outline-none focus:ring-1 focus:ring-white/30 transition-all border border-white/5"
+            className="w-full bg-transparent text-[#FAF9F6] font-serif text-2xl placeholder:text-[#FAF9F6]/20 focus:outline-none transition-all"
           />
           {query && (
             <button 
@@ -108,23 +108,23 @@ export default function Search() {
                 setQuery('');
                 setResults([]);
               }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
+              className="absolute right-0 top-1/2 -translate-y-1/2 text-[#FAF9F6]/30 hover:text-[#FAF9F6] transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5" strokeWidth={1} />
             </button>
           )}
         </form>
       </div>
 
-      <div className="flex overflow-x-auto no-scrollbar gap-3 mb-6 px-4 snap-x snap-mandatory scroll-smooth">
+      <div className="flex overflow-x-auto no-scrollbar gap-6 mb-8 px-6 snap-x snap-mandatory scroll-smooth">
         {tabs.map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-medium transition-colors border snap-center ${
+            className={`whitespace-nowrap pb-2 text-[9px] font-sans tracking-widest uppercase transition-all snap-center border-b ${
               activeTab === tab 
-                ? 'bg-white/20 text-white border-white/20' 
-                : 'bg-transparent text-white/70 border-white/10 hover:bg-white/5'
+                ? 'text-[#FAF9F6] border-[#FAF9F6]' 
+                : 'text-[#FAF9F6]/40 border-transparent hover:text-[#FAF9F6]/70'
             }`}
           >
             {tab}
@@ -191,11 +191,11 @@ export default function Search() {
         </div>
       )}
 
-      <div className="px-4">
+      <div className="px-6">
         {loading ? (
           <SearchSkeleton />
         ) : results.length > 0 ? (
-          <div className="space-y-1 border-t border-white/10 pt-4">
+          <div className="flex flex-col">
             {results.filter(item => {
               if (activeTab === 'Semua') return true;
               if (activeTab === 'Lagu') return item.type === 'SONG';
@@ -209,14 +209,14 @@ export default function Search() {
             ))}
           </div>
         ) : query ? (
-          <div className="flex flex-col items-center justify-center mt-20 text-white/50">
-            <SearchIcon className="w-16 h-16 mb-4 opacity-20" />
-            <p>Tidak ada hasil yang ditemukan</p>
+          <div className="flex flex-col items-center justify-center mt-32 text-[#FAF9F6]/30">
+            <SearchIcon className="w-10 h-10 mb-6 opacity-20" strokeWidth={1} />
+            <p className="font-serif text-lg">No results found</p>
           </div>
         ) : recentSearches.length === 0 ? (
-          <div className="flex flex-col items-center justify-center mt-20 text-white/50">
-            <SearchIcon className="w-16 h-16 mb-4 opacity-20" />
-            <p>Cari lagu, album, atau artis</p>
+          <div className="flex flex-col items-center justify-center mt-32 text-[#FAF9F6]/30">
+            <SearchIcon className="w-10 h-10 mb-6 opacity-20" strokeWidth={1} />
+            <p className="font-serif text-lg">Discover artists, songs, or albums</p>
           </div>
         ) : null}
       </div>

@@ -1,0 +1,8 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Minimalist dark background -->
+  <rect width="512" height="512" fill="#121110"/>
+  <!-- Elegant "C" shape -->
+  <text x="50%" y="55%" font-family="Times New Roman, serif" font-size="320" font-weight="bold" font-style="italic" fill="#FAF9F6" text-anchor="middle" dominant-baseline="middle">C</text>
+  <!-- Thin border -->
+  <rect x="32" y="32" width="448" height="448" fill="none" stroke="#FAF9F6" stroke-width="2" stroke-opacity="0.2"/>
+</svg>

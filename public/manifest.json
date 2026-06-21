@@ -1,23 +1,17 @@
 {
-  "name": "Music App",
-  "short_name": "Music",
-  "description": "Platform streaming musik modern",
+  "name": "Coda",
+  "short_name": "Coda",
+  "description": "High-End Editorial Web Music Player",
   "start_url": "/",
   "id": "/",
   "display": "standalone",
-  "background_color": "#0A0A0A",
-  "theme_color": "#0A0A0A",
+  "background_color": "#121110",
+  "theme_color": "#121110",
   "icons": [
     {
-      "src": "https://f.top4top.io/p_3733w0g4e0.jpg",
-      "sizes": "192x192",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "https://f.top4top.io/p_3733w0g4e0.jpg",
-      "sizes": "512x512",
-      "type": "image/jpeg",
+      "src": "/logo.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ]

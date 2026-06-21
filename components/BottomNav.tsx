@@ -15,8 +15,8 @@ export function BottomNav() {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/40 backdrop-blur-xl border-t border-white/5 pb-safe">
-      <div className="flex justify-around items-center h-16 px-2">
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#121110]/80 backdrop-blur-md border-t border-[#FAF9F6]/5 pb-safe">
+      <div className="flex justify-around items-center h-16 px-6 max-w-lg mx-auto">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -24,14 +24,12 @@ export function BottomNav() {
               key={item.name}
               href={item.href}
               className={cn(
-                'flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors',
-                isActive ? 'text-white' : 'text-white/50 hover:text-white/80'
+                'flex flex-col items-center justify-center w-full h-full space-y-1 transition-all duration-300',
+                isActive ? 'text-[#FAF9F6] scale-105' : 'text-[#FAF9F6]/40 hover:text-[#FAF9F6]/70'
               )}
             >
-              <div className={cn("px-4 py-1 rounded-full transition-all", isActive && "bg-white text-black")}>
-                <item.icon className={cn("w-6 h-6", isActive && "fill-current")} strokeWidth={isActive ? 2.5 : 2} />
-              </div>
-              <span className="text-[10px] font-medium">{item.name}</span>
+              <item.icon className="w-5 h-5" strokeWidth={isActive ? 1.5 : 1} />
+              {isActive && <span className="text-[9px] font-sans tracking-widest uppercase">{item.name}</span>}
             </Link>
           );
         })}

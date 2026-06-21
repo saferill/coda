@@ -14,61 +14,46 @@ export function QuickPicksSection({ quickPicksTracks, playTrack }: Props) {
   if (quickPicksTracks.length === 0) return null;
 
   return (
-    <div className="px-4">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold text-white">Pilihan cepat</h2>
+    <div className="px-6">
+      <div className="flex items-center justify-between mb-8 border-b border-[#FAF9F6]/10 pb-4">
+        <h2 className="text-2xl font-serif font-bold text-[#FAF9F6]">Quick Picks</h2>
         <button
-          className="text-sm font-medium text-white/80 hover:text-white border border-white/20 rounded-full px-4 py-1.5 transition-colors"
+          className="text-[9px] font-sans tracking-widest uppercase text-[#FAF9F6]/60 hover:text-[#FAF9F6] border border-[#FAF9F6]/20 rounded-full px-5 py-2 transition-all duration-300 hover:border-[#FAF9F6]/60"
           onClick={() => playTrack(quickPicksTracks[0], quickPicksTracks, 'similar')}
         >
-          Putar semua
+          Play All
         </button>
       </div>
-      <div className="flex overflow-x-auto no-scrollbar gap-4 snap-x snap-mandatory scroll-smooth pb-4">
-        {Array.from({ length: Math.ceil(quickPicksTracks.length / 4) }).map((_, i) => {
-          const chunk = quickPicksTracks.slice(i * 4, i * 4 + 4);
-          return (
-            <motion.div
-              key={`quickpicks-chunk-${i}`}
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="w-[85vw] sm:w-[400px] shrink-0 snap-center flex flex-col gap-3"
-            >
-              {chunk.map((track, j) => (
-                <div
-                  key={`quickpicks-${track.videoId}-${j}`}
-                  className="flex items-center gap-3 cursor-pointer group hover:bg-white/5 p-2 -mx-2 rounded-xl active:scale-[0.98] transition-all duration-200"
-                  onClick={() => playTrack(track, quickPicksTracks, 'similar')}
-                >
-                  <div className="relative w-12 h-12 rounded-md overflow-hidden shrink-0">
-                    <Image 
-                      src={getHighResImage(track.thumbnails?.[track.thumbnails.length - 1]?.url, 100)} 
-                      alt={track.name} 
-                      fill 
-                      sizes="48px" 
-                      className="object-cover" 
-                    />
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Play className="w-5 h-5 text-white fill-current" />
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <MarqueeText text={track.name} className="text-white font-medium text-base" />
-                    <MarqueeText
-                      text={Array.isArray(track.artist) ? track.artist.map((a: any) => a.name).join(', ') : track.artist?.name}
-                      className="text-white/60 text-sm"
-                    />
-                  </div>
-                  <button className="p-2 text-white/60 hover:text-white transition-colors">
-                    <MoreVertical className="w-5 h-5" />
-                  </button>
-                </div>
-              ))}
-            </motion.div>
-          );
-        })}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-1">
+        {quickPicksTracks.slice(0, 8).map((track, j) => (
+          <div
+            key={`quickpicks-${track.videoId}-${j}`}
+            className="flex items-center justify-between cursor-pointer group hover:bg-[#FAF9F6]/5 py-3 px-3 -mx-3 transition-colors duration-300 border-b border-[#FAF9F6]/5 last:border-0"
+            onClick={() => playTrack(track, quickPicksTracks, 'similar')}
+          >
+            <div className="flex items-center gap-5 min-w-0">
+              <div className="relative w-10 h-10 overflow-hidden shrink-0">
+                <Image 
+                  src={getHighResImage(track.thumbnails?.[track.thumbnails.length - 1]?.url, 100)} 
+                  alt={track.name} 
+                  fill 
+                  sizes="40px" 
+                  className="object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" 
+                />
+              </div>
+              <div className="flex-1 min-w-0 flex flex-col justify-center">
+                <MarqueeText text={track.name} className="text-[#FAF9F6] font-serif text-[15px] mb-0.5" />
+                <MarqueeText
+                  text={Array.isArray(track.artist) ? track.artist.map((a: any) => a.name).join(', ') : track.artist?.name}
+                  className="text-[#FAF9F6]/40 text-[9px] font-sans tracking-widest uppercase"
+                />
+              </div>
+            </div>
+            <button className="p-2 text-[#FAF9F6]/20 group-hover:text-[#FAF9F6] transition-colors ml-4 shrink-0">
+              <MoreVertical className="w-4 h-4" strokeWidth={1} />
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );

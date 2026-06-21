@@ -50,21 +50,21 @@ export default function HistoryPage() {
     return (
       <div 
         key={item.playedAt + track.videoId} 
-        className="flex items-center gap-4 py-2 cursor-pointer hover:bg-white/5 px-4 rounded-xl transition-colors"
+        className="flex items-center gap-4 py-3 cursor-pointer hover:bg-[#FAF9F6]/5 px-6 rounded-sm transition-colors duration-300 border-b border-[#FAF9F6]/5 last:border-0 group"
         onClick={() => playTrack(track, history.map(h => h.track))}
       >
-        <div className="relative w-12 h-12 rounded-md overflow-hidden shrink-0">
-          <Image src={thumbnail} alt={track.name} fill sizes="56px" className="object-cover" />
+        <div className="relative w-12 h-12 overflow-hidden shrink-0 shadow-lg">
+          <Image src={thumbnail} alt={track.name} fill sizes="56px" className="object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" />
         </div>
-        <div className="flex-1 min-w-0">
-          <MarqueeText text={track.name} className="text-white font-medium text-base" />
+        <div className="flex-1 min-w-0 pb-1">
+          <MarqueeText text={track.name} className="font-serif text-[15px] mb-0.5 text-[#FAF9F6]" />
           <MarqueeText 
             text={`${artistName}${formatDuration(track.duration)}`} 
-            className="text-white/60 text-sm" 
+            className="text-[9px] font-sans tracking-widest uppercase text-[#FAF9F6]/40" 
           />
         </div>
-        <button className="p-2 text-white/60 hover:text-white transition-colors">
-          <MoreVertical className="w-5 h-5" />
+        <button className="p-2 text-[#FAF9F6]/30 hover:text-[#FAF9F6] transition-colors opacity-0 group-hover:opacity-100">
+          <MoreVertical className="w-4 h-4" strokeWidth={1} />
         </button>
       </div>
     );
@@ -72,29 +72,30 @@ export default function HistoryPage() {
 
   return (
     <main className="min-h-screen pb-24">
-      <div className="sticky top-0 z-10 bg-black/50 backdrop-blur-md pt-6 pb-4 px-4 flex items-center justify-between">
+      <div className="sticky top-0 z-20 bg-[#121110]/80 backdrop-blur-xl border-b border-[#FAF9F6]/5 pt-6 pb-4 px-6 flex items-center justify-between transition-all">
         <div className="flex items-center gap-4">
-          <button onClick={() => router.back()} className="text-white hover:bg-white/10 p-2 rounded-full transition-colors">
-            <ArrowLeft className="w-6 h-6" />
+          <button onClick={() => router.back()} className="text-[#FAF9F6] hover:text-[#FAF9F6]/70 transition-colors">
+            <ArrowLeft className="w-5 h-5" strokeWidth={1.5} />
           </button>
-          <h1 className="text-xl font-bold text-white">Riwayat</h1>
+          <span className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]">History</span>
         </div>
-        <button className="text-white hover:bg-white/10 p-2 rounded-full transition-colors">
-          <Search className="w-6 h-6" />
+        <button className="text-[#FAF9F6] hover:text-[#FAF9F6]/70 transition-colors">
+          <Search className="w-5 h-5" strokeWidth={1.5} />
         </button>
       </div>
 
-      <div className="px-4 mb-6">
-        <button className="px-5 py-2 bg-white/10 text-white rounded-full text-sm font-medium border border-white/5">
-          Lokal
+      <div className="px-6 mt-6 mb-8">
+        <button className="pb-1 text-[9px] font-sans tracking-widest uppercase text-[#FAF9F6] border-b border-[#FAF9F6] transition-all">
+          Local
         </button>
       </div>
 
       <div className="space-y-8">
+      <div className="space-y-12 mt-4">
         {todayHistory.length > 0 && (
           <div>
-            <h2 className="text-xl font-bold text-white px-4 mb-4">Hari ini</h2>
-            <div className="space-y-1">
+            <h2 className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50 px-6 mb-6">Today</h2>
+            <div className="flex flex-col">
               {todayHistory.map(renderTrackItem)}
             </div>
           </div>
@@ -102,8 +103,8 @@ export default function HistoryPage() {
 
         {thisWeekHistory.length > 0 && (
           <div>
-            <h2 className="text-xl font-bold text-white px-4 mb-4">Minggu ini</h2>
-            <div className="space-y-1">
+            <h2 className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50 px-6 mb-6">This Week</h2>
+            <div className="flex flex-col">
               {thisWeekHistory.map(renderTrackItem)}
             </div>
           </div>
@@ -111,16 +112,16 @@ export default function HistoryPage() {
 
         {olderHistory.length > 0 && (
           <div>
-            <h2 className="text-xl font-bold text-white px-4 mb-4">Lebih lama</h2>
-            <div className="space-y-1">
+            <h2 className="text-[10px] font-sans tracking-widest uppercase text-[#FAF9F6]/50 px-6 mb-6">Older</h2>
+            <div className="flex flex-col">
               {olderHistory.map(renderTrackItem)}
             </div>
           </div>
         )}
 
         {history.length === 0 && (
-          <div className="text-center text-white/50 mt-20">
-            Belum ada riwayat putaran
+          <div className="text-center text-[#FAF9F6]/40 font-serif italic mt-32">
+            No history yet
           </div>
         )}
       </div>

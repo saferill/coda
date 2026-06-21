@@ -38,22 +38,22 @@ export default function AlbumClient({ album }: { album: any }) {
   };
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-6 w-full justify-center">
+      <button 
+        onClick={() => album.songs.length > 0 && playTrack(album.songs[0], album.songs)}
+        className="w-12 h-12 border border-[#FAF9F6] rounded-full flex items-center justify-center hover:bg-[#FAF9F6] hover:text-[#121110] text-[#FAF9F6] transition-all duration-300"
+      >
+        <Play className="w-4 h-4 fill-current ml-0.5" strokeWidth={1} />
+      </button>
       <button 
         onClick={handleSaveAlbum}
-        className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
-        title={isSaved ? "Hapus dari Koleksi" : "Simpan ke Koleksi"}
+        className="w-12 h-12 border border-[#FAF9F6]/20 rounded-full flex items-center justify-center hover:border-[#FAF9F6]/60 text-[#FAF9F6]/60 hover:text-[#FAF9F6] transition-all duration-300"
+        title={isSaved ? "Remove from Library" : "Save to Library"}
       >
-        {isSaved ? <BookmarkCheck className="w-5 h-5 text-[#81B29A]" /> : <BookmarkPlus className="w-5 h-5 text-white" />}
+        {isSaved ? <BookmarkCheck className="w-5 h-5 text-[#FAF9F6]" strokeWidth={1.5} /> : <BookmarkPlus className="w-5 h-5" strokeWidth={1.5} />}
       </button>
-      <button 
-        className="w-16 h-16 bg-[#A3C9A8] rounded-full flex items-center justify-center hover:scale-105 transition-transform"
-        onClick={() => album.songs.length > 0 && playTrack(album.songs[0], album.songs)}
-      >
-        <Play className="w-8 h-8 text-black fill-current ml-1" />
-      </button>
-      <button className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
-        <MoreVertical className="w-5 h-5 text-white" />
+      <button className="w-12 h-12 border border-[#FAF9F6]/20 rounded-full flex items-center justify-center hover:border-[#FAF9F6]/60 text-[#FAF9F6]/60 hover:text-[#FAF9F6] transition-all duration-300">
+        <MoreVertical className="w-5 h-5" strokeWidth={1.5} />
       </button>
     </div>
   );
